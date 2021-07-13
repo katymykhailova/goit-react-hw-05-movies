@@ -17,7 +17,6 @@ export default function HomePage() {
   const page = new URLSearchParams(location.search).get('page') ?? 1;
 
   const onChangePage = (event, page) => {
-    setReqStatus('pending');
     history.push({ ...location, search: `page=${page}` });
   };
 

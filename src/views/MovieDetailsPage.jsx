@@ -6,23 +6,27 @@ import {
   useRouteMatch,
   Switch,
 } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { fetchMovieDetails } from 'services/apiService';
 import Cast from 'views/Cast';
 import Reviews from 'views/Reviews';
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
+  const [reqStatus, setReqStatus] = useState('idle');
   const { url, path } = useRouteMatch();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
     async function fetchMovies(movieId) {
       try {
+        setReqStatus('pending');
         const movie = await fetchMovieDetails(movieId);
         setMovie(movie);
+        setReqStatus('resolved');
       } catch (error) {
-        // toast.error(error.message);
-        // setReqStatus('rejected');
+        toast.error(error.message);
+        setReqStatus('rejected');
       }
     }
     fetchMovies(movieId);
@@ -57,7 +61,6 @@ export default function MovieDetailsPage() {
       </NavLink>
 
       <Switch>
-        {/* <Route path="/movies/:movieId/cast"> */}
         <Route path={`${path}/cast`}>
           <Cast />
         </Route>
