@@ -63,7 +63,7 @@ export default function Reviews() {
         </ReviewsList>
       )}
       {reqStatus === 'rejected' && (
-        <ReviewsError>We don't have any credits for this movie</ReviewsError>
+        <ReviewsError>We don't have any reviews for this movie</ReviewsError>
       )}
     </>
   );
