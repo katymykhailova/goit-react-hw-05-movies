@@ -5,6 +5,11 @@ import styled from '@emotion/styled/macro';
 import { fetchMovieCredits } from 'services/apiService';
 
 const CreditsList = styled.ul`
+  display: grid;
+  max-width: calc(100vw - 48px);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-gap: 16px;
+
   padding: 0;
   margin-left: 25px;
   list-style: square;
