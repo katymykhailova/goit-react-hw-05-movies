@@ -8,26 +8,20 @@ axios.defaults.baseURL = BASE_URL;
 
 export const fetchTrendingMovies = async page => {
   const response = await axios.get(
-    // `/trending/all/day?api_key=${API_KEY}&page=${page}`,
     `/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
   );
   const trendinMoviesData = await response.data;
-  // const trendinMovies = await trendinMoviesData.results;
-  // const normalizedMovies = await fetchNormalizer(trendinMovies);
-  // this.totalPages = popularMoviesData.total_pages;
-  // return normalizedMovies;
   return trendinMoviesData;
 };
 
 export const fetchMoviesSearchQuery = async (searchQuery, page) => {
   const response = await axios.get(
-    // `/search/movie?api_key=${API_KEY}&language=en&query='${searchQuery}'`,
     `/search/movie?api_key=${API_KEY}&page=${page}&language=en&query='${searchQuery}'`,
   );
   const popularMoviesData = await response.data;
-  // const popularMovies = await popularMoviesData.results;
-  // const normalizedMovies = await fetchNormalizer(popularMovies);
-  // this.totalPages = popularMoviesData.total_pages;
+  if (popularMoviesData.results.length === 0) {
+    throw new Error(`Not found ${searchQuery}`);
+  }
   return popularMoviesData;
 };
 
@@ -47,8 +41,21 @@ export const fetchMovieCredits = async id => {
   const response = await axios.get(
     `movie/${id}/credits?api_key=${API_KEY}&language=en-US`,
   );
-  const modalMovie = await response.data;
-  return modalMovie;
+  const castMovie = await response.data;
+  const modalCast = await castMovie.cast;
+  if (modalCast.length === 0) {
+    throw new Error(`404 Not found`);
+  }
+
+  const updatedModalCast = modalCast.map(movie => {
+    const profile_path = movie.profile_path
+      ? 'https://image.tmdb.org/t/p/w500' + movie.profile_path
+      : defaultImage;
+    const updated = { ...movie, profile_path };
+    return updated;
+  });
+
+  return updatedModalCast;
 };
 
 export const fetchMovieReviews = async id => {
@@ -56,6 +63,10 @@ export const fetchMovieReviews = async id => {
     `movie/${id}/reviews?api_key=${API_KEY}&language=en-US`,
   );
   const modalMovie = await response.data;
+  if (modalMovie.results.length === 0) {
+    throw new Error(`404 Not found`);
+  }
+
   return modalMovie;
 };
 

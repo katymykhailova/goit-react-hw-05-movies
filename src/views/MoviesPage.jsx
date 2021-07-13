@@ -11,16 +11,16 @@ import React from 'react';
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [totalPages, setTotalPages] = useState(0);
   const [reqStatus, setReqStatus] = useState('idle');
 
   const location = useLocation();
   const history = useHistory();
-  let page = new URLSearchParams(location.search).get('page') ?? 1;
+  const page = new URLSearchParams(location.search).get('page') ?? 1;
+  const searchQuery = new URLSearchParams(location.search).get('query') ?? '';
 
   const onChangePage = (event, page) => {
-    history.push({ ...location, search: `page=${page}` });
+    history.push({ ...location, search: `page=${page}&query=${searchQuery}` });
   };
 
   useEffect(() => {
@@ -40,8 +40,8 @@ export default function MoviesPage() {
         setMovies(movies);
         setReqStatus('resolved');
       } catch (error) {
-        toast.error(error.message);
         setReqStatus('rejected');
+        toast.error(error.message);
       }
     }
     fetchMovies(searchQuery);
@@ -59,8 +59,10 @@ export default function MoviesPage() {
   }, [movies]);
 
   const handleFormSubmit = searchQuery => {
-    setSearchQuery(searchQuery);
-    history.push({ ...location, search: `page=${1}` });
+    history.push({
+      ...location,
+      search: `page=${1}&query=${searchQuery}`,
+    });
     setMovies([]);
   };
 

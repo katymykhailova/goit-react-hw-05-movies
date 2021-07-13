@@ -31,8 +31,8 @@ export default function HomePage() {
         setMovies(movies);
         setReqStatus('resolved');
       } catch (error) {
-        toast.error(error.message);
         setReqStatus('rejected');
+        toast.error(error.message);
       }
     }
 

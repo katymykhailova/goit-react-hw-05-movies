@@ -1,19 +1,49 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import styled from '@emotion/styled/macro';
 import { fetchMovieCredits } from 'services/apiService';
+
+const CreditsList = styled.ul`
+  padding: 0;
+  margin-left: 25px;
+  list-style: square;
+`;
+
+const CreditsItem = styled.li`
+  display: flex;
+  padding: 5px;
+`;
+
+const CreditsError = styled.p`
+  margin-left: 25px;
+  padding: 5px;
+  font-weight: bold;
+`;
+
+const CreditsImg = styled.img`
+  width: 100px;
+  height: 100%;
+  min-height: 150px;
+  object-fit: cover;
+  margin-right: 10px;
+`;
 
 export default function Cast() {
   const [credits, setCredits] = useState(null);
+  const [reqStatus, setReqStatus] = useState('idle');
   const { movieId } = useParams();
 
   useEffect(() => {
     async function fetchMovies(movieId) {
       try {
-        const { cast } = await fetchMovieCredits(movieId);
+        setReqStatus('pending');
+        const cast = await fetchMovieCredits(movieId);
         setCredits(cast);
+        setReqStatus('resolved');
       } catch (error) {
-        // toast.error(error.message);
-        // setReqStatus('rejected');
+        setReqStatus('rejected');
+        toast.error(error.message);
       }
     }
     fetchMovies(movieId);
@@ -22,11 +52,17 @@ export default function Cast() {
   return (
     <>
       {credits && (
-        <ul>
-          {credits.map(({ id, name }) => (
-            <li key={id}>{name}</li>
+        <CreditsList>
+          {credits.map(({ id, original_name, profile_path }) => (
+            <CreditsItem key={id}>
+              <CreditsImg src={profile_path} alt={original_name} />
+              <span>{original_name}</span>
+            </CreditsItem>
           ))}
-        </ul>
+        </CreditsList>
+      )}
+      {reqStatus === 'rejected' && (
+        <CreditsError>We don't have any credits for this movie</CreditsError>
       )}
     </>
   );

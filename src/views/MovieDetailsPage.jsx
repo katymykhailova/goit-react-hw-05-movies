@@ -8,8 +8,10 @@ import {
 } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { fetchMovieDetails } from 'services/apiService';
+import MovieDetails from 'components/MovieDetails';
 import Cast from 'views/Cast';
 import Reviews from 'views/Reviews';
+import NotFoundView from 'views/NotFoundView';
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -25,8 +27,8 @@ export default function MovieDetailsPage() {
         setMovie(movie);
         setReqStatus('resolved');
       } catch (error) {
-        toast.error(error.message);
         setReqStatus('rejected');
+        toast.error(error.message);
       }
     }
     fetchMovies(movieId);
@@ -36,26 +38,22 @@ export default function MovieDetailsPage() {
     <>
       {movie && (
         <>
-          <img src={movie.poster_path} alt={movie.title} />
-          <h2>
-            {movie.title}
-            {movieId}
-          </h2>
+          <MovieDetails movie={movie} />
         </>
       )}
       <NavLink
         exact
         to={`${url}/cast`}
-        // className="nav-link"
-        // activeClassName="nav-activelink"
+        className="movie-link"
+        activeClassName="movie-activelink"
       >
         Cast
       </NavLink>
 
       <NavLink
         to={`${url}/reviews`}
-        // className="nav-link"
-        // activeClassName="nav-activelink"
+        className="movie-link"
+        activeClassName="movie-activelink"
       >
         Reviews
       </NavLink>
@@ -68,6 +66,7 @@ export default function MovieDetailsPage() {
           <Reviews />
         </Route>
       </Switch>
+      {reqStatus === 'rejected' && <NotFoundView />}
     </>
   );
 }
