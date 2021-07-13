@@ -7,17 +7,19 @@ import { fetchMovieCredits } from 'services/apiService';
 const CreditsList = styled.ul`
   display: grid;
   max-width: calc(100vw - 48px);
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   grid-gap: 16px;
 
   padding: 0;
   margin-left: 25px;
-  list-style: square;
+  list-style: none;
 `;
 
 const CreditsItem = styled.li`
   display: flex;
+  flex-direction: column;
   padding: 5px;
+  border: rgba(0, 0, 0, 0.08) solid 1px;
 `;
 
 const CreditsError = styled.p`
@@ -27,11 +29,8 @@ const CreditsError = styled.p`
 `;
 
 const CreditsImg = styled.img`
-  width: 100px;
-  height: 100%;
-  min-height: 150px;
+  min-height: 175px;
   object-fit: cover;
-  margin-right: 10px;
 `;
 
 export default function Cast() {
