@@ -18,8 +18,16 @@ export const ImageGallery = styled.img`
 `;
 
 export const Title = styled.h3`
+  margin: 0;
   padding: 5px;
   font-size: 12px;
   line-height: 1.33;
   text-transform: uppercase;
+`;
+
+export const Text = styled.p`
+  margin: 0;
+  padding: 0 5px 5px;
+  font-size: 12px;
+  line-height: 1.33;
 `;
