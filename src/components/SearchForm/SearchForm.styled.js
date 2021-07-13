@@ -3,8 +3,9 @@ import styled from '@emotion/styled/macro';
 export const SearchForm = styled.form`
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 600px;
+  //max-width: 600px;
   background-color: #fff;
   border-radius: 3px;
   overflow: hidden;
@@ -15,6 +16,7 @@ export const SearchFormButton = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
+  background-color: rgba(0, 0, 0, 0.08);
   background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
   background-size: 40%;
   background-repeat: no-repeat;
@@ -42,10 +44,11 @@ export const SearchFormButtonLabel = styled.span`
 
 export const SearchFormInput = styled.input`
   display: inline-block;
-  width: 100%;
+  width: 600px;
+  height: 46px;
   font: inherit;
   font-size: 20px;
-  border: none;
+  border: rgba(0, 0, 0, 0.08) solid 1px;
   outline: none;
   padding-left: 4px;
   padding-right: 4px;

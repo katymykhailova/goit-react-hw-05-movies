@@ -53,6 +53,7 @@ export default function HomePage() {
       <SearchForm onSubmit={handleFormSubmit} />
       {movies && <MovieList movies={movies} />}
       <Pagination
+        className="pagination"
         count={totalPages}
         onChange={onChangePage}
         page={Number(page)}
