@@ -1,9 +1,11 @@
 import styled from '@emotion/styled/macro';
 
 export const SectionMovie = styled.div`
-  display: flex;
   margin-bottom: 30px;
   margin-left: 25px;
+  @media screen and (min-width: 680px) {
+    display: flex;
+  }
 `;
 
 export const MovieImg = styled.img`
@@ -18,7 +20,10 @@ export const MovieTitle = styled.h2`
 `;
 
 export const MovieInfo = styled.div`
-  margin: 0 50px;
+  margin: 0;
+  @media screen and (min-width: 680px) {
+    margin: 0 50px;
+  }
 `;
 
 export const MovieInfoList = styled.ul`
