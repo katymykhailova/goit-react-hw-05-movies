@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import {
   useParams,
   NavLink,
@@ -9,9 +9,18 @@ import {
 import { toast } from 'react-toastify';
 import { fetchMovieDetails } from 'services/apiService';
 import MovieDetails from 'components/MovieDetails';
-import Cast from 'views/Cast';
-import Reviews from 'views/Reviews';
 import NotFoundView from 'views/NotFoundView';
+import { Loader } from 'components//Loader/Loader';
+
+const Cast = lazy(() =>
+  import('views/Cast.jsx' /* webpackChunkName: "cast-page" */),
+);
+const Reviews = lazy(() =>
+  import('views/Reviews.jsx' /* webpackChunkName: "reviews-page" */),
+);
+
+// import Cast from 'views/Cast';
+// import Reviews from 'views/Reviews';
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -58,14 +67,16 @@ export default function MovieDetailsPage() {
         Reviews
       </NavLink>
 
-      <Switch>
-        <Route path={`${path}/cast`}>
-          <Cast />
-        </Route>
-        <Route path={`${path}/reviews`}>
-          <Reviews />
-        </Route>
-      </Switch>
+      <Suspense fallback={<Loader />}>
+        <Switch>
+          <Route path={`${path}/cast`}>
+            <Cast />
+          </Route>
+          <Route path={`${path}/reviews`}>
+            <Reviews />
+          </Route>
+        </Switch>
+      </Suspense>
       {reqStatus === 'rejected' && <NotFoundView />}
     </>
   );

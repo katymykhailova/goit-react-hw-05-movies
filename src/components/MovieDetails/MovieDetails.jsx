@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import {
   SectionMovie,
   MovieImg,
@@ -47,3 +49,7 @@ export default function MovieDetails({ movie }) {
     </SectionMovie>
   );
 }
+
+MovieDetails.propTypes = {
+  movie: PropTypes.object.isRequired,
+};

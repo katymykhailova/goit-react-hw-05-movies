@@ -33,8 +33,11 @@ MovieItem.defaultProps = {
 };
 
 MovieItem.propTypes = {
+  id: PropTypes.number.isRequired,
   posterPath: PropTypes.string,
+  title: PropTypes.string.isRequired,
   backdropPath: PropTypes.string,
-  title: PropTypes.string,
-  handleImageClick: PropTypes.func,
+  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+  releaseDate: PropTypes.string.isRequired,
+  voteAverage: PropTypes.number.isRequired,
 };
