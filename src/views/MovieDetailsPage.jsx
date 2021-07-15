@@ -61,7 +61,7 @@ export default function MovieDetailsPage() {
     <>
       <Button onClick={handleGoBack} aria-label="add contact">
         <CgArrowLeftR size={16} />
-        Go to bag
+        Go back
       </Button>
       {movie && (
         <>
