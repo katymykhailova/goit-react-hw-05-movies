@@ -5,11 +5,15 @@ import {
   Route,
   useRouteMatch,
   Switch,
+  useHistory,
+  useLocation,
 } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { CgArrowLeftR } from 'react-icons/cg';
 import { fetchMovieDetails } from 'services/apiService';
 import MovieDetails from 'components/MovieDetails';
 import NotFoundView from 'views/NotFoundView';
+import Button from 'components/Button';
 import { Loader } from 'components//Loader/Loader';
 
 const Cast = lazy(() =>
@@ -19,14 +23,13 @@ const Reviews = lazy(() =>
   import('views/Reviews.jsx' /* webpackChunkName: "reviews-page" */),
 );
 
-// import Cast from 'views/Cast';
-// import Reviews from 'views/Reviews';
-
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const [reqStatus, setReqStatus] = useState('idle');
   const { url, path } = useRouteMatch();
   const [movie, setMovie] = useState(null);
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     async function fetchMovies(movieId) {
@@ -43,8 +46,23 @@ export default function MovieDetailsPage() {
     fetchMovies(movieId);
   }, [movieId]);
 
+  const handleGoBack = () => {
+    const { state } = location;
+    if (state) {
+      history.push(location.state.from);
+      return;
+    }
+    history.push({
+      pathname: '/movies',
+    });
+  };
+
   return (
     <>
+      <Button onClick={handleGoBack} aria-label="add contact">
+        <CgArrowLeftR size={16} />
+        Go to bag
+      </Button>
       {movie && (
         <>
           <MovieDetails movie={movie} />
@@ -52,7 +70,10 @@ export default function MovieDetailsPage() {
       )}
       <NavLink
         exact
-        to={`${url}/cast`}
+        to={{
+          pathname: `${url}/cast`,
+          state: { from: location?.state?.from },
+        }}
         className="movie-link"
         activeClassName="movie-activelink"
       >
@@ -60,7 +81,10 @@ export default function MovieDetailsPage() {
       </NavLink>
 
       <NavLink
-        to={`${url}/reviews`}
+        to={{
+          pathname: `${url}/reviews`,
+          state: { from: location?.state?.from },
+        }}
         className="movie-link"
         activeClassName="movie-activelink"
       >

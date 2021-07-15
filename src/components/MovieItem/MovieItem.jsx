@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { GalleryItem, ImageGallery, Title, Text } from './MovieItem.styled';
 import defaultImage from 'images/default.jpg';
@@ -13,9 +13,16 @@ export default function MovieItem({
   releaseDate,
   voteAverage,
 }) {
+  const location = useLocation();
+
   return (
     <GalleryItem>
-      <Link to={`movies/${id}`}>
+      <Link
+        to={{
+          pathname: `/movies/${id}`,
+          state: { from: location },
+        }}
+      >
         <ImageGallery src={posterPath} alt={title} />
         <Title>{title}</Title>
         <Text>{genres.join(', ')}</Text>

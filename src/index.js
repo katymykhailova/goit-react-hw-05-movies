@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import 'modern-normalize/modern-normalize.css';
 import './index.css';
-import App from './App';
+import App from 'components/App';
 
 ReactDOM.render(
   <React.StrictMode>
