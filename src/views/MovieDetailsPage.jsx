@@ -59,7 +59,7 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      <Button onClick={handleGoBack} aria-label="add contact">
+      <Button onClick={handleGoBack} aria-label="go back">
         <CgArrowLeftR size={16} />
         Go back
       </Button>
